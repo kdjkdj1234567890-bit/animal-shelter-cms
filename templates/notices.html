@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+{% set meta_title = '소식 - 행복한발 보호소' %}
+{% include '_head.html' %}
+</head>
+<body>
+{% include '_header.html' %}
+<main id="main-content" class="container" style="max-width:760px">
+  <h2 class="page-title">보호소 소식</h2>
+  {% for n in notices %}
+  <div class="card">
+    <h3><a href="/notices/{{ n.id }}">{{ n.title }}</a></h3>
+    <p style="font-size:13px;color:#888">{{ n.created_at[:10] }}</p>
+    <p>{{ n.content|striptags|truncate(120) }}</p>
+  </div>
+  {% endfor %}
+  {% if not notices %}<div class="card"><p>등록된 소식이 없습니다.</p></div>{% endif %}
+</main>
+<footer class="footer">행복한발 보호소 데모</footer>
+</body>
+</html>

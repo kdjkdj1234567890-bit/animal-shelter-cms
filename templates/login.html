@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+{% set meta_title = '관리자 로그인 - 행복한발 보호소' %}
+{% include '_head.html' %}
+</head>
+<body>
+{% include '_header.html' %}
+<div class="container">
+  <div class="card login-box">
+    <h2 style="text-align:center">🔧 관리자 로그인</h2>
+    <p style="text-align:center;font-size:13px;color:#888;margin:8px 0">운영진 전용 화면입니다.</p>
+    <form action="/login" method="post" style="margin-top:16px">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <div class="form-group">
+        <label>아이디</label>
+        <input type="text" name="username" required autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>비밀번호</label>
+        <input type="password" name="password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%">로그인</button>
+    </form>
+    <div class="alert alert-info" style="margin-top:16px;margin-bottom:0">
+      데모 계정 — 아이디: <b>{{ demo_user }}</b> / 비밀번호: <b>{{ demo_pass }}</b>
+    </div>
+  </div>
+</div>
+</body>
+</html>

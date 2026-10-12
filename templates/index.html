@@ -1,0 +1,51 @@
+{% from '_macros.html' import picture with context %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+{% set meta_title = '행복한발 보호소 - 위기 동물의 새 출발을 돕습니다' %}
+{% include '_head.html' %}
+</head>
+<body>
+{% include '_header.html' %}
+
+<main id="main-content" class="container">
+  <div class="hero">
+    <h2>🐾 새 가족을 기다리는 아이들</h2>
+    <p>위기 상황에 놓인 동물들을 구조하고, 치료하고, 평생 가족을 찾아줍니다.</p>
+    <a class="btn btn-accent" href="/animals">입양 가능한 아이들 보기</a>
+  </div>
+
+  <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="stat"><div class="num">{{ total }}</div><div class="label">보호 중인 동물</div></div>
+    <div class="stat"><div class="num">{{ adopted }}</div><div class="label">입양 완료 (누적)</div></div>
+    <div class="stat"><div class="num">100%</div><div class="label">봉사자 운영</div></div>
+  </div>
+
+  <h2 class="page-title">새 가족을 기다려요</h2>
+  <div class="animal-grid">
+    {% for a in animals %}
+    <div class="animal-card">
+      <div class="animal-photo">{% if a.photo_path %}{{ picture(a, a.name + ' 사진', '(max-width: 720px) 50vw, 260px', 'width:100%;height:180px;object-fit:cover') }}{% else %}<span role="img" aria-label="{{ a.name }}">{{ a.photo_emoji }}</span>{% endif %}</div>
+      <div class="animal-body">
+        <h3><a href="/animals/{{ a.id }}">{{ a.name }}</a></h3>
+        <div class="animal-meta">{{ a.species }} · {{ a.breed }} · {{ a.age }}</div>
+        <span class="badge badge-{{ a.status }}">{{ a.status }}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div style="text-align:center;margin:16px 0 32px"><a class="btn btn-primary" href="/animals">전체 보기 &rarr;</a></div>
+
+  <h2 class="page-title">보호소 소식</h2>
+  {% for n in notices %}
+  <div class="card">
+    <h3><a href="/notices/{{ n.id }}">{{ n.title }}</a></h3>
+    <p style="font-size:13px;color:#888">{{ n.created_at[:10] }}</p>
+    <p>{{ n.content|striptags|truncate(120) }}</p>
+  </div>
+  {% endfor %}
+</main>
+
+<footer class="footer">행복한발 보호소 데모 · 위시켓 수주 제안용 프로토타입<br><a href="/login" style="color:#bbb;font-size:12px">관리자 로그인</a></footer>
+</body>
+</html>

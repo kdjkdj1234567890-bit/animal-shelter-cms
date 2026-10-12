@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+{% set meta_title = '입양 신청 - 행복한발 보호소' %}
+{% include '_head.html' %}
+</head>
+<body>
+{% include '_header.html' %}
+
+<main id="main-content" class="container" style="max-width:640px">
+  <h2 class="page-title">{{ animal.name }} 입양 신청</h2>
+  <div class="alert alert-info">신청서를 보내주시면 보호소에서 검토 후 3일 이내에 연락드립니다.</div>
+  <form action="/apply/{{ animal.id }}" method="post" class="card">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <div class="form-row">
+      <div class="form-group">
+        <label>신청자 이름 *</label>
+        <input type="text" name="applicant_name" required placeholder="홍길동">
+      </div>
+      <div class="form-group">
+        <label>휴대폰 번호 *</label>
+        <input type="tel" name="phone" required placeholder="010-0000-0000">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>이메일</label>
+      <input type="email" name="email" placeholder="example@email.com">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>주소 *</label>
+        <input type="text" name="address" required placeholder="경기도 용인시">
+      </div>
+      <div class="form-group">
+        <label>주거 형태 *</label>
+        <select name="housing_type">
+          <option value="아파트">아파트</option>
+          <option value="단독주택">단독주택</option>
+          <option value="빌라/연립">빌라/연립</option>
+          <option value="기타">기타</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>입양 동기 *</label>
+      <textarea name="motive" required placeholder="왜 이 아이와 함께하고 싶은지 편하게 적어주세요."></textarea>
+    </div>
+    <button type="submit" class="btn btn-accent" style="width:100%">신청서 보내기</button>
+  </form>
+</main>
+<footer class="footer">행복한발 보호소 데모</footer>
+</body>
+</html>

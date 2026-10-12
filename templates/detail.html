@@ -1,0 +1,67 @@
+{% from '_macros.html' import picture with context %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+{% set meta_title = animal.name + ' - 행복한발 보호소' %}
+{% if animal.photo_path %}{% set meta_image = url_for('static', filename=animal.photo_path, _external=True) %}{% endif %}
+{% include '_head.html' %}
+</head>
+<body>
+{% include '_header.html' %}
+
+<main id="main-content" class="container">
+  {% if is_preview %}
+  <div class="alert alert-info" style="border:2px dashed #0d47a1">👁️ <b>미리보기 모드</b> — 아직 저장되지 않았습니다. 이 화면은 방문자에게 이렇게 보입니다.</div>
+  {% endif %}
+  <a href="/">&larr; 목록으로</a>
+  <div class="detail-photo">{% if animal.photo_path %}{{ picture(animal, animal.name + ' 사진', '(max-width: 720px) 100vw, 720px', 'max-width:100%;max-height:320px;border-radius:12px') }}{% else %}<span role="img" aria-label="{{ animal.name }}">{{ animal.photo_emoji }}</span>{% endif %}</div>
+
+  {% if photos %}
+  <h3 class="page-title" style="font-size:18px">📷 갤러리</h3>
+  <div class="animal-grid" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
+    {% for p in photos %}
+    <div class="animal-card">
+      {{ picture(p, animal.name + ' 갤러리 사진 ' + loop.index|string, '(max-width: 720px) 50vw, 240px', 'width:100%;height:140px;object-fit:cover') }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="card">
+    <h2>{{ animal.name }}
+      <span class="badge badge-{{ animal.status }}">{{ animal.status }}</span>
+    </h2>
+    <dl style="margin-top:12px">
+      <div class="kv"><dt>종 / 품종</dt><dd>{{ animal.species }} / {{ animal.breed }}</dd></div>
+      <div class="kv"><dt>나이 / 성별</dt><dd>{{ animal.age }} / {{ animal.gender }}</dd></div>
+      <div class="kv"><dt>구조일</dt><dd>{{ animal.rescue_date }}</dd></div>
+      <div class="kv"><dt>구조 장소</dt><dd>{{ animal.rescue_place }}</dd></div>
+    </dl>
+    <p style="margin-top:12px">{{ animal.description }}</p>
+    <div style="margin-top:20px">
+      {% if adoptable and not is_preview %}
+      <a class="btn btn-accent" href="/apply/{{ animal.id }}">입양 신청하기</a>
+      {% elif not is_preview %}
+      <span class="alert alert-info" style="display:inline-block">이 아이는 이미 가족을 찾았어요 🎉</span>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if medical %}
+  <div class="card">
+    <h3>🏥 건강 기록 <span class="hint">({{ medical|length }}건)</span></h3>
+    <table class="data" style="margin-top:12px">
+      <thead><tr><th>날짜</th><th>구분</th><th>내용</th></tr></thead>
+      <tbody>
+      {% for m in medical %}
+      <tr><td>{{ m.record_date }}</td><td><span class="badge badge-보호중">{{ m.kind }}</span></td><td>{{ m.note }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <p class="hint" style="margin-top:8px">건강 기록은 보호소가 직접 입력한 내용입니다. 입양 전 상담 시 자세히 안내해드립니다.</p>
+  </div>
+  {% endif %}
+</main>
+<footer class="footer">행복한발 보호소 데모 · <a href="/reviews">입양 후기</a></footer>
+</body>
+</html>

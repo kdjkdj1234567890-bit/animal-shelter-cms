@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+{% set meta_title = notice.title + ' - 행복한발 보호소' %}
+{% include '_head.html' %}
+</head>
+<body>
+{% include '_header.html' %}
+<main id="main-content" class="container" style="max-width:760px">
+  {% if is_preview %}
+  <div class="alert alert-info" style="border:2px dashed #0d47a1">👁️ <b>미리보기 모드</b> — 아직 저장되지 않았습니다.</div>
+  {% endif %}
+  <a href="/notices">&larr; 소식 목록으로</a>
+  <div class="card" style="margin-top:12px">
+    <h2>{{ notice.title }}</h2>
+    <p style="font-size:13px;color:#888;margin:8px 0">{{ notice.created_at[:10] }}</p>
+    <div class="rich-content">{{ notice.content|safe }}</div>
+  </div>
+</main>
+<footer class="footer">행복한발 보호소 데모</footer>
+</body>
+</html>
